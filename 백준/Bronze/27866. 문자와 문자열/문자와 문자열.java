@@ -10,7 +10,7 @@ public class Main {
 		int i = Integer.parseInt(br.readLine());
 		br.close();
 		
-		System.out.println(S.substring(i-1, i));
+		System.out.println(S.charAt(i-1));
 
 	}
 }
