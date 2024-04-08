@@ -26,15 +26,11 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			for(int j = 0; j < M; j++) {
 				arr2[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
-		
-		for(int i = 0; i < N; i++) {
-			for(int j = 0; j < M; j++) {
 				System.out.print(arr1[i][j] + arr2[i][j] + " ");
 			}
 			System.out.println();
-		}		
+		}
+			
 	}
 
 }
