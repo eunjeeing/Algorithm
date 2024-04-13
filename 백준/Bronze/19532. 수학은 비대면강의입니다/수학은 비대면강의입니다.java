@@ -20,6 +20,7 @@ public class Main {
 			for(int j = -999; j < 1000; j++) {
 				if((a * i + b * j == c) && (d * i + e * j == f)) {
 					System.out.println(i + " " + j);
+                    break;
 				}
 			}
 		}
