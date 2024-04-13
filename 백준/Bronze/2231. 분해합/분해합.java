@@ -3,31 +3,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-
+    public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		int N = Integer.parseInt(br.readLine());
+		br.close(); 
 		int result = 0;
-
-		for (int i = 1; i <= N; i++) {
-			String num = i + "";
+		for(int i = 0; i < N; i++) {
+			int number = i;
 			int sum = 0;
-			for (int j = 0; j < num.length(); j++) {
-				sum += num.charAt(j)-'0';
+			
+			while (number != 0) {
+				sum += number % 10;
+				number /= 10;
 			}
-			if (sum + Integer.parseInt(num) == N) {
-				result = Integer.parseInt(num);
-				System.out.println(result);
-					break;
+			
+			if(sum + i == N) {
+				result = i;
+				break;
 			}
-
 		}
-		if (result == 0) {
-			System.out.println(0);
-
-		}
-
+		System.out.println(result);
 	}
-
 }
