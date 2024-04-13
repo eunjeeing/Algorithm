@@ -11,12 +11,10 @@ public class Main {
 		int result = 0;
 
 		for (int i = 1; i <= N; i++) {
-
 			String num = i + "";
-			String[] numArr = num.split("");
 			int sum = 0;
-			for (int j = 0; j < numArr.length; j++) {
-				sum += Integer.parseInt(numArr[j]);
+			for (int j = 0; j < num.length(); j++) {
+				sum += num.charAt(j)-'0';
 			}
 			if (sum + Integer.parseInt(num) == N) {
 				result = Integer.parseInt(num);
