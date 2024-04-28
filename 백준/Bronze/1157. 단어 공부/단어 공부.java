@@ -1,34 +1,28 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-		
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		HashMap<Character, Integer> map = new HashMap<>();
-		List<Character> list = new ArrayList<>();
+		String str = br.readLine().toUpperCase();
+		int[] alphabet = new int[26];
 		
-		String s = br.readLine().toUpperCase();
-		int max = 0; 
-
-		br.close();
-		
-		for(int i = 0; i < s.length(); i++) {
-			char ch = s.charAt(i);
-			map.put(ch, map.getOrDefault(ch, 0) +1);
-			max = Math.max(max, map.get(ch));
+		for (int i = 0; i < str.length(); i++) {
+			alphabet[str.charAt(i)-65]++;
 		}
 		
-		for(Character key : map.keySet()) {
-			if(map.get(key) == max) {
-				list.add(key);
+		int max = alphabet[0];
+		char result = 'A';
+		
+		for(int i = 1; i < alphabet.length; i++) {
+			if(max < alphabet[i]) {
+				max = alphabet[i];
+				result = (char) (i+65);
+			} else if (max == alphabet[i]) {
+				result = '?';
 			}
 		}
-		
-		System.out.println(list.size() > 1 ? "?" : list.get(0));
+		System.out.println(result);
 	}
+
 }
