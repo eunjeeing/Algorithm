@@ -34,16 +34,28 @@ public class Main {
 			for (int i = 0; i < M; i++) {
 				for (int j = 0; j < N; j++) {
 					if(map[i][j] == 1 && !visited[i][j]) {
-						bfs(i, j);
+						dfs(i, j);
 						count++;
 					}
 				}
 			}
 			System.out.println(count);
 		}
-		
 
+	}
+	
+	static void dfs(int x, int y) {
+		visited[x][y] = true;
 		
+		for (int i = 0; i < 4; i++) {
+			int nextX = x + dx[i];
+			int nextY = y + dy[i];
+			if(nextX >= 0 && nextY >= 0 && nextX < M && nextY < N) {
+				if(!visited[nextX][nextY] && map[nextX][nextY] == 1) {
+					dfs(nextX, nextY);
+				}
+			}
+		}
 	}
 	
 	static void bfs(int x, int y) {
