@@ -24,13 +24,13 @@ public class Main {
 		}
 		
 		Arrays.sort(arr);
-		bfs(0, 0);
+		dfs(0, 0);
 		
 		System.out.println(sb);
         br.close();
 	}
 	
-	static void bfs (int idx, int depth) {
+	static void dfs (int idx, int depth) {
 		if (depth == M) {
 			for (int i = 1; i < depth + 1; i++) {
 				sb.append(arr2[i] + " ");
@@ -42,7 +42,7 @@ public class Main {
 		for (int i = 1; i < N + 1; i++) {
 				arr2[depth+1] = arr[i];
 				
-				bfs(i+1, depth+1);
+				dfs(i+1, depth+1);
 		}
 	}
 	
