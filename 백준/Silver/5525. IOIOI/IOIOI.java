@@ -4,24 +4,21 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String P = "";
 		int N = Integer.parseInt(br.readLine());
 		int M = Integer.parseInt(br.readLine());
-		String S = br.readLine();
 		
-		for (int i = 0; i < N; i++) {
-			P += "IO";
+		int count = 0;
+		int[] memo = new int[M];
+		char[] S = br.readLine().toCharArray();
+		for (int i = 1; i < M - 1; i++) {
+			if (S[i] == 'O' && S[i + 1] == 'I') {
+				memo[i + 1] = memo[i - 1] + 1;
+				if (memo[i + 1] >= N && S[i - 2 * N + 1] == 'I') {
+					count++;
+				}
+			}
 		}
-		P += "I";
-		
-		int idx = 0;
-		HashSet<Integer> set = new HashSet<>();
-		for (int i = 0; i < M; i++) {
-			idx = S.indexOf(P, i);
-			set.add(idx);
-		}
-		set.remove(-1);
-		System.out.println(set.size());
+		System.out.println(count);
 	}
 
 }
