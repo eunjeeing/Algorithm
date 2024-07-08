@@ -33,7 +33,7 @@ public class Main {
 
     }
 
-    public static int dfs(int x, int y, int count) {
+    public static void dfs(int x, int y, int count) {
         max = Math.max(max, count);
 
         for (int i = 0; i < 4; i++) {
@@ -49,6 +49,5 @@ public class Main {
                 }
             }
         }
-        return max;
     }
 }
