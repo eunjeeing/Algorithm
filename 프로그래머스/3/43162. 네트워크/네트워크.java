@@ -3,20 +3,20 @@ import java.util.*;
 class Solution {
     
     static boolean[] visited;
-    static int count = 0;
     
     public int solution(int n, int[][] computers) {
         
         visited = new boolean[n];
+        int count = 0;
         
         for (int i = 0; i < n; i++) {
-            bfs(n, computers, i);
+            if(!visited[i]) {
+                bfs(n, computers, i);
+               count++;
+            }
         }
-                
-        System.out.println(count);
-        
-        int answer = n - count;
-        return answer;
+           
+        return count;
     }
     
     public void bfs(int n, int[][] computers, int start) {
@@ -30,7 +30,6 @@ class Solution {
                 if (computers[temp][i] == 1 && !visited[i]) {
                     q.offer(i);
                     visited[i] = true;
-                    count++;
                 }
             }
         }
