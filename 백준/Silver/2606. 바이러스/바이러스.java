@@ -1,44 +1,51 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-	
-	public static int[][] node;
-	public static boolean[] visited;
-	public static int M,N;
-	public static int result = 0;
-	
-	public static int dfs(int start) {
-		
-		visited[start] = true;
-		
-		for(int i = 1; i <= M; i++) {
-			if(node[start][i] == 1 && !visited[i]) {
-				dfs(i);
-				result++;
-			}
 
-		}
-		
-		return result;
-	}
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		M = Integer.parseInt(br.readLine());
-		N = Integer.parseInt(br.readLine());
-		
-		node = new int[M+1][M+1];
-		visited = new boolean[M+1];
-		
-		for (int i = 0; i < N; i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int m = Integer.parseInt(st.nextToken());
-			int n = Integer.parseInt(st.nextToken());
-			node[m][n] = node[n][m] = 1;
-		}
-		
-		System.out.println(dfs(1));
-	}
+    static List<List<Integer>> graph = new ArrayList<>();
+    static boolean[] visited;
+    static int n, m;
 
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+        m = Integer.parseInt(br.readLine());
+
+        visited = new boolean[n+1];
+
+        for (int i = 0; i <= n; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+
+        System.out.println(bfs(1));
+    }
+
+    static int bfs(int start) {
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        visited[start] = true;
+        int count = 0;
+
+        while(!q.isEmpty()) {
+            int current = q.poll();
+
+            for (int i : graph.get(current)) {
+                if(!visited[i]) {
+                    visited[i] = true;
+                    q.offer(i);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
 }
