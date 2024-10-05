@@ -32,7 +32,7 @@ public class Main {
         }
 
         dfs(a, 0);
-        bfs(a);
+        // bfs(a);
         System.out.println(result);
     }
 
