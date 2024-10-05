@@ -3,49 +3,63 @@ import java.io.*;
 
 public class Main {
 
+    static int N, M;
+    static int count = 0;
     static List<List<Integer>> graph = new ArrayList<>();
     static boolean[] visited;
-    static int n, m;
 
-    public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
-        m = Integer.parseInt(br.readLine());
 
-        visited = new boolean[n+1];
+        N = Integer.parseInt(br.readLine());
+        M = Integer.parseInt(br.readLine());
 
-        for (int i = 0; i <= n; i++) {
+        visited = new boolean[N+1];
+
+        for (int i = 0; i <= N; i++) {
             graph.add(new ArrayList<>());
         }
 
-        for (int i = 0; i < m; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int u = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
-            graph.get(u).add(v);
-            graph.get(v).add(u);
+        StringTokenizer st;
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            graph.get(a).add(b);
+            graph.get(b).add(a);
         }
 
-        System.out.println(bfs(1));
+//        dfs(1);
+//        System.out.println(count-1);
+
+        bfs(1);
+        System.out.println(count);
     }
 
-    static int bfs(int start) {
+    static void dfs(int start) {
+        if (visited[start]) return;
+        visited[start] = true;
+        count++;
+
+        for (int i : graph.get(start)) {
+            if(!visited[i]) dfs(i);
+        }
+    }
+
+    static void bfs(int start) {
         Queue<Integer> q = new LinkedList<>();
         q.offer(start);
         visited[start] = true;
-        int count = 0;
 
-        while(!q.isEmpty()) {
-            int current = q.poll();
-
-            for (int i : graph.get(current)) {
-                if(!visited[i]) {
-                    visited[i] = true;
+        while (!q.isEmpty()) {
+            int t = q.poll();
+            for (int i : graph.get(t)) {
+                if (!visited[i]) {
                     q.offer(i);
+                    visited[i] = true;
                     count++;
                 }
             }
         }
-        return count;
     }
 }
