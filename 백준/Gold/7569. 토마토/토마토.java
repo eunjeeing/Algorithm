@@ -3,76 +3,83 @@ import java.io.*;
 
 public class Main {
 
-	static int M, N, H;
-	static int[][][] box;
-	static int[] dx = { -1, 1, 0, 0, 0, 0 };
-	static int[] dy = { 0, 0, -1, 1, 0, 0 };
-	static int[] dz = { 0, 0, 0, 0, -1, 1 };
-	static Queue<int[]> q = new LinkedList<>();
-	static int count = 0;
+    static int N, M, H;
+    static int[][][] map;
+    static int dx[] = {-1, 1, 0, 0, 0, 0};
+    static int dy[] = {0, 0, 1, -1, 0, 0};
+    static int dz[] = {0, 0, 0, 0, 1, -1};
+    static Queue<Point> tomato = new LinkedList<>();
 
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+	public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        H = Integer.parseInt(st.nextToken());
 
-		st = new StringTokenizer(br.readLine());
-		M = Integer.parseInt(st.nextToken()); // 가로
-		N = Integer.parseInt(st.nextToken()); // 세로
-		H = Integer.parseInt(st.nextToken()); // 높이
-		box = new int[H][N][M];
+        map = new int[H][N][M];
 
-		for (int i = 0; i < H; i++) {
-			for (int j = 0; j < N; j++) { 
-				st = new StringTokenizer(br.readLine());
-				for (int k = 0; k < M; k++) {
-					box[i][j][k] = Integer.parseInt(st.nextToken());
-					if (box[i][j][k] == 1) {
-						q.offer(new int[] { i, j, k });
-					}
-				}
-			}
-		}
+        for (int i = 0; i < H; i++) {
+            for (int j = 0; j < N; j++) {
+                st = new StringTokenizer(br.readLine());
+                for (int k = 0; k < M; k++) {
+                    map[i][j][k] = Integer.parseInt(st.nextToken());
+                    if (map[i][j][k] == 1) {
+                        tomato.offer(new Point(i, j, k));
+                    }
+                }
+            }
+        }
 
-		System.out.println(bfs());
+        int result = bfs();
 
-	}
+        for (int i = 0; i < H; i++) {
+            for (int j = 0; j < N; j++) {
+                for (int k = 0; k < M; k++) {
+                    if(map[i][j][k] == 0) {
+                        result = -1;
+                    }
+                }
+            }
+        }
+        System.out.println(result);
+    }
 
-	public static int bfs() {
-		while (!q.isEmpty()) {
-			int[] now = q.poll();
-			int nowZ = now[0];
-			int nowX = now[1];
-			int nowY = now[2];
+    static int bfs() {
+        int count = 0;
 
-			for (int i = 0; i < 6; i++) {
-				int nextZ = nowZ + dz[i];
-				int nextX = nowX + dx[i];
-				int nextY = nowY + dy[i];
+        while (!tomato.isEmpty()) {
+            Point c = tomato.poll();
+            for (int i = 0; i < 6; i++) {
+                int nx = c.x + dx[i];
+                int ny = c.y + dy[i];
+                int nz = c.z + dz[i];
 
-				if (nextX >= 0 && nextY >= 0 && nextZ >= 0 && nextX < N && nextY < M && nextZ < H) {
-					if (box[nextZ][nextX][nextY] == 0) {
-						box[nextZ][nextX][nextY] = box[nowZ][nowX][nowY] + 1;
-						q.offer(new int[] { nextZ, nextX, nextY });
-					}
-				}
-			}
-		}
-		for (int i = 0; i < H; i++) {	
-			for (int j = 0; j < N; j++) {
-				for (int k = 0; k < M; k++) {
-					if(box[i][j][k] == 0) {
-						return -1;
-					}
-					count = Math.max(count, box[i][j][k]);
-				}
-			}
-		}
-		if (count == 1) {
-			return 0;
-		} else {
-			return count-1;
-		}
+                if (nx >= 0 && nx < H && ny >= 0 && ny < N && nz >= 0 && nz < M) {
+                    if (map[nx][ny][nz] == 0) {
+                        tomato.offer(new Point(nx, ny, nz));
+                        map[nx][ny][nz] = map[c.x][c.y][c.z] + 1;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < H; i++) {
+            for (int j = 0; j < N; j++) {
+                for (int k = 0; k < M; k++) {
+                    count = Math.max(count, map[i][j][k]);
+                }
+            }
+        }
+        return count-1;
+    }
 
-	}
+    static class Point {
+        int x, y, z;
 
+        Point(int x, int y, int z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+    }
 }
